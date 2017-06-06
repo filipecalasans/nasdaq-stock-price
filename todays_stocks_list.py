@@ -1,9 +1,6 @@
 import retreive_stock_list as datadir
 from enum import Enum, unique
 
-READ_PREFIX = datadir.PATH_TO_SAVE + datadir.PREFIX
-FILES_PATH = [READ_PREFIX + filename for filename in datadir.FILE_TO_GET]
-
 @unique
 class FileIndex(Enum):
    SYMBOL = 0
@@ -38,42 +35,47 @@ class StockInfo:
                                                     self.etf,
                                                     self.nextShares))
 
-def parse_file(filename):
-   f = open(filename, 'r')
+def parse_file():
 
-   line = f.readline() # Discard First line (Header)
-   stock_info = {}
+   READ_PREFIX = datadir.PATH_TO_SAVE + datadir.PREFIX
+   FILES_PATH = [READ_PREFIX + filename for filename in datadir.FILE_TO_GET]
 
-   last_key_inserted = ''
+   for filename in FILES_PATH:
 
-   for line in f:
-      line = line.replace("\n", "")
-      values = line.split("|")
-      last_key_inserted = values[FileIndex['SYMBOL'].value]
+      f = open(filename, 'r')
 
-      stock = StockInfo(symbol=values[FileIndex['SYMBOL'].value], 
-                        security_name=[FileIndex['SECURITY_NAME'].value], 
-                        market_cat=[FileIndex['MARKET_CATEGORY'].value], 
-                        test_issue=[FileIndex['TEST_ISSUE'].value], 
-                        fin_stats=[FileIndex['FINANCIAL_STATUS'].value], 
-                        lot_size=[FileIndex['ROUND_LOT_SIZE'].value], 
-                        etf=[FileIndex['ETF'].value]=='Y', 
-                        nxtShares=[FileIndex['NEXTSHARES'].value])
-                     
-      if len(stock.symbol):
-         stock_info[stock.symbol] = stock
+      line = f.readline() # Discard First line (Header)
+      stock_info = {}
+
+      last_key_inserted = ''
+
+      for line in f:
+         line = line.replace("\n", "")
+         values = line.split("|")
+         last_key_inserted = values[FileIndex['SYMBOL'].value]
+
+         stock = StockInfo(symbol=values[FileIndex['SYMBOL'].value], 
+                           security_name=[FileIndex['SECURITY_NAME'].value], 
+                           market_cat=[FileIndex['MARKET_CATEGORY'].value], 
+                           test_issue=[FileIndex['TEST_ISSUE'].value], 
+                           fin_stats=[FileIndex['FINANCIAL_STATUS'].value], 
+                           lot_size=[FileIndex['ROUND_LOT_SIZE'].value], 
+                           etf=[FileIndex['ETF'].value]=='Y', 
+                           nxtShares=[FileIndex['NEXTSHARES'].value])
+                        
+         if len(stock.symbol):
+            stock_info[stock.symbol] = stock
    
-   del stock_info[last_key_inserted]
+      del stock_info[last_key_inserted]
+
    return stock_info
 
 if __name__ == "__main__":
-   for file in FILES_PATH:
-      stock_info = parse_file(file)
-      print("===================================================")
-      print("{}".format(file))
-      print("===================================================")
-      for stock in stock_info:
-         print(stock)
+   
+   stock_info = parse_file()
+   print("===================================================")
+   for stock in stock_info:
+      print(stock)
 
 
 

@@ -3,8 +3,8 @@ from datetime import date
 
 PATH_TO_SAVE = "../data/" 
 PREFIX = date.today().strftime('%Y-%m-%d-')
-FILE_TO_GET = ['nasdaqlisted.txt', 'otherlisted.txt']
-
+FILE_TO_GET = ['nasdaqlisted.txt']
+# , 'otherlisted.txt'
 def main():
    
    try:
