@@ -1,7 +1,14 @@
-# nasdaq-stock-price
-Build a Google Docs Spreadsheets for Nasdaq Prices follow-up using Google Finance and GoogleAPI in Python.
+# Nasdaq Stock Price
 
-##Table Example 
+Build a Google Docs Spreadsheets for Nasdaq Prices follow-up using Google Finance and GoogleAPI in Python.
+We get the stocks listed in Nasdaq from theier FTP Server and populates a Spreadsheet in google docs
+using the Python GoogleAPI. 
+
+If you want to use these scripts you'll have to provide the google credentials on a 
+file named 'credential-google.json' at ../credentials. You may change this in code
+if you prefer.
+
+## Table Example 
 
 |stocks|price|priceopen|high|low|volume|datedelay|change|changepct|closeyest|shares|
 |------|------|------|------|------|------|------|------|------|------|------:|
